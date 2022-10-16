@@ -1,0 +1,12 @@
+remote = origin
+git_root = .
+master = "main"
+develop = "develop"
+patch_prefix = .
+preserve_patch_zero = true
+do_version_commit = false
+create_tags = patch
+push_develop = ask
+push_master = ask
+push_tags = ask
+info_file = composer.json
