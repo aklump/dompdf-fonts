@@ -1,0 +1,14 @@
+# You should use relative paths if possible. Any relative paths are resolved
+# relative to the directory containing this configuration file.
+
+# One or more relative glob values that will yield font files to import.
+sources:
+  - ../*.ttf
+
+output:
+  # The relative path to the distribution folder.  This will be deleted at the
+  # start of all imports so should only be used for this purpose.
+  path: ../../dist/dompdf_fonts/
+
+  # Type the URL that maps to the output directory.  This is used for SCSS.
+  url: /modules/custom/my_module/dist/dompdf_fonts/
