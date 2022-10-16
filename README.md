@@ -1,8 +1,10 @@
-# How to Add Custom Fonts to DomPDF
+# DomPDF Fonts
+
+I wrote this project to simplify using custom fonts with DomPdf.
 
 ## Installation
 
-`composer create-package aklump/dompdf-fonts`
+1. `composer create-project aklump/dompdf-fonts`
 
 ## Get the .ttf font files
 
@@ -38,7 +40,8 @@ _Example file tree._
 
 ## Set the import configuration
 
-1. Update _config.yml_ as appropriate. All paths are relative to _config.yml_'s parent directory.
+1. _config.yml_ should have been copied from _config.dist.yml_ when you installed this, if not you must manually do so now.
+2. Update _config.yml_ as appropriate. All paths are relative to _config.yml_'s parent directory.
 
 _File: \_config.yml_
 
