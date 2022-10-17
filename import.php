@@ -15,12 +15,7 @@ namespace AKlump\Dompdf;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Yaml\Yaml;
 
-if (file_exists(__DIR__ . "/vendor/autoload.php")) {
-  require_once __DIR__ . "/vendor/autoload.php";
-}
-else {
-  require_once __DIR__ . "/../../autoload.php";
-}
+require_once $GLOBALS['_composer_autoload_path'];
 
 try {
   if (!isset($argv[1])) {
