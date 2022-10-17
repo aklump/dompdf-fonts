@@ -5,7 +5,6 @@ namespace AKlump\Dompdf;
 use Dompdf\Dompdf;
 use FontLib\Font;
 use FontLib\Table\Type\name;
-use Symfony\Component\Filesystem\Path;
 
 /**
  * @link https://github.com/dompdf/php-font-lib

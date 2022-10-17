@@ -20,7 +20,7 @@
         }
     ],
     "homepage": "https:\/\/github.com\/aklump\/dompdf-fonts",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "bin": [
         "import.php"
     ]
