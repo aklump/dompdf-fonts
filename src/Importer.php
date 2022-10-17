@@ -274,12 +274,17 @@ class Importer {
 
     // Store the fonts in the lookup table
 
-    // By converting the path to a basename, this is more portable because it
-    // will work in Lando or on production as the path is relative to the fonts
-    // directory.
-    $entry = array_map(function ($path) {
-      return basename($path);
-    }, $entry);
+    // Check for a method we know doesn't exist in version 1.x.  Version 1.x
+    // needs the full path because it's cache is a .php file; the 2.x branch
+    // uses JSON and we need a realtive path for best portability.
+    if (method_exists(Dompdf::class, 'addInfo')) {
+      // By converting the path to a basename, this is more portable because it
+      // will work in Lando or on production as the path is relative to the fonts
+      // directory.
+      $entry = array_map(function ($path) {
+        return basename($path);
+      }, $entry);
+    }
 
     $fontMetrics->setFontFamily($fontname, $entry);
 
