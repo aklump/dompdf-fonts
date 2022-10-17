@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 /**
@@ -14,7 +15,12 @@ namespace AKlump\Dompdf;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Yaml\Yaml;
 
-require_once __DIR__ . "/vendor/autoload.php";
+if (file_exists(__DIR__ . "/vendor/autoload.php")) {
+  require_once __DIR__ . "/vendor/autoload.php";
+}
+else {
+  require_once __DIR__ . "/../../autoload.php";
+}
 
 try {
   $config_path = Path::makeAbsolute($argv[1], getcwd());
