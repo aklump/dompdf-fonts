@@ -1,22 +1,37 @@
 <?php
 
+/**
+ * @file
+ * Font importer
+ *
+ * @code
+ * php import.php path_to_config.yml
+ * @endcode
+ */
+
 namespace AKlump\Dompdf;
 
+use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Yaml\Yaml;
 
-require_once "./vendor/autoload.php";
-
-// Load the configuration JSON
-$config = __DIR__ . '/config.yml';
-$config = Yaml::parseFile($config);
-$config['resolve_path'] = __DIR__;
-if (!is_dir($config['resolve_path'])) {
-  throw new \RuntimeException();
-}
+require_once __DIR__ . "/vendor/autoload.php";
 
 try {
+  $config_path = Path::makeAbsolute($argv[1], getcwd());
+  $config = Yaml::parseFile($config_path);
+
+  // Resolve all relative config paths.
+  $base_path = dirname($config_path);
+  $resolve = function (string &$path) use ($base_path) {
+    $path = Path::makeAbsolute($path, $base_path);
+  };
+  foreach ($config['sources'] as &$source) {
+    $resolve($source);
+  }
+  $resolve($config['output']['path']);
+
   $output = new Output();
-  $service = new DomPdfFontLoader($config, $output);
+  $service = new Importer($config, $output);
   $available = $service->getAvailableFonts();
   if (empty($available)) {
     $output->writeln('Nothing to do. No fonts found.');
@@ -33,7 +48,9 @@ try {
     else {
       $result = $service->importFont($available[$font_family_name]);
       if ($result) {
-        $output->writeln('"%s" IMPORTED.', $font_family_name);
+        foreach ($available[$font_family_name] as $typeface) {
+          $output->writeln('%s; font-weight: %s; font-style: %s', $typeface['family'], $typeface['weight'], $typeface['style']);
+        }
       }
       else {
         $output->writeln('"%s" FAILED.', $font_family_name);

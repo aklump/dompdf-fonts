@@ -5,11 +5,11 @@ namespace AKlump\Dompdf;
 final class SCSS {
 
   /**
-   * @var \AKlump\Dompdf\DomPdfFontLoader
+   * @var \AKlump\Dompdf\Importer
    */
   private $loader;
 
-  public function __construct(DomPdfFontLoader $loader) {
+  public function __construct(Importer $loader) {
     $this->loader = $loader;
   }
 

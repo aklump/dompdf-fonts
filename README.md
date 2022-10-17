@@ -1,6 +1,6 @@
-# DomPDF Fonts
+# DOMPDF Fonts
 
-I wrote this project to simplify using custom fonts with DomPdf.
+I wrote this project to simplify using [custom fonts](https://github.com/dompdf/dompdf/wiki/About-Fonts-and-Character-Encoding) with [DOMPDF](https://dompdf.github.io/).
 
 ## Installation
 
@@ -29,21 +29,21 @@ _Example file tree._
 │       ├── _style.scss
 │       └── installed-fonts.json
 └── fonts
+    ├── dompdf-fonts.config.yml
     ├── Merriweather--bold-italic.ttf
     ├── Merriweather--bold.ttf
     ├── Merriweather--italic.ttf
     ├── Merriweather--normal.ttf
     └── dompdf
-        ├── config.yml
-        └── importer.php
+        └── import.php
 ```
 
 ## Set the import configuration
 
-1. _config.yml_ should have been copied from _config.dist.yml_ when you installed this, if not you must manually do so now.
-2. Update _config.yml_ as appropriate. All paths are relative to _config.yml_'s parent directory.
+1. _dompdf-fonts.config.yml_ should have been copied from _dompdf-fonts.config.dist.yml_ when you installed this, if not you must manually do so now.
+2. Update _dompdf-fonts.config.yml_ as appropriate. All paths are relative to _dompdf-fonts.config.yml_'s parent directory.
 
-_File: \_config.yml_
+_File: \_dompdf-fonts.config.yml_
 
 ```yaml
 source:
@@ -53,21 +53,21 @@ output: ../../dist/dompdf_fonts/
 
 ## Run the importer
 
-1. Run `php importer.php` to process your fonts.
+1. Run `php import.php` to process your fonts.
 2. Inspect to make sure your output directory contains the necessary files.
 
 ## Use with Dompdf instances
 
-1. Set the fonts directory to match `output.path` on every new Dompdf instance in your code. This is an example from a Drupal 9 module.
+1. Set the fonts directory to match `output.path` on every new DOMPDF instance in your code. This is an example from a Drupal 9 module.
 
 ```php
 $options = new \Dompdf\Options();
 
 // Determine the configuration directory by reading the import config.
-$font_config_dir = \Drupal::service('extension.list.module')
-    ->getPath('my_module') . '/fonts/dompdf/';
-$fonts_config = \Symfony\Component\Yaml\Yaml::parseFile($font_config_dir . '/config.yml');
-$fonts_dir = realpath($font_config_dir . '/' . $fonts_config['output']['path']);
+$fonts_base_path = \Drupal::service('extension.list.module')
+    ->getPath('my_module') . '/fonts';
+$fonts_config = \Symfony\Component\Yaml\Yaml::parseFile($fonts_base_path . '/dompdf-fonts.config.yml');
+$fonts_dir = realpath($fonts_base_path . '/' . $fonts_config['output']['path']);
 $options->setFontDir($fonts_dir);
 
 $dompdf = new \Dompdf\Dompdf($options);
@@ -75,7 +75,7 @@ $dompdf = new \Dompdf\Dompdf($options);
 
 ## Use with HTML markup
 
-1. To see your font in the browser you must import the SCSS partial. When only rendering PDFs, DomPDF does not use _\_style.scss_.
+1. To see your font in the browser you must import the SCSS partial. When only rendering PDFs, DOMPDF does not use _\_style.scss_.
 
 _File: my_module/scss/\_pdf.scss_
 

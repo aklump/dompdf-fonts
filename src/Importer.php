@@ -5,12 +5,13 @@ namespace AKlump\Dompdf;
 use Dompdf\Dompdf;
 use FontLib\Font;
 use FontLib\Table\Type\name;
+use Symfony\Component\Filesystem\Path;
 
 /**
  * @link https://github.com/dompdf/php-font-lib
  * @see \FontLib\AdobeFontMetrics
  */
-class DomPdfFontLoader {
+class Importer {
 
   /**
    * @var array
@@ -31,7 +32,7 @@ class DomPdfFontLoader {
     $this->config = $config;
     $this->output = $output;
     $this->dompdf = new Dompdf();
-    $output_path = $this->getOutputPath(FALSE);
+    $output_path = $this->getOutputPath();
     $this->ensureDirectoryExists($output_path);
     $this->dompdf->getOptions()->set('fontDir', $output_path);
   }
@@ -53,11 +54,8 @@ class DomPdfFontLoader {
     }
   }
 
-  public function getOutputPath(bool $resolve = TRUE): string {
+  public function getOutputPath(): string {
     $path = $this->config['output']['path'] ?? NULL;
-    if ($resolve) {
-      $path = $this->resolvePath($path);
-    }
 
     return rtrim($path, '/');
   }
@@ -70,27 +68,8 @@ class DomPdfFontLoader {
     return rtrim($this->config['output']['url'], '/');
   }
 
-  protected function getScssPartialPath(bool $resolve = TRUE): string {
-    $path = $this->getOutputPath($resolve);
-    $path = $path . '/_style.scss';
-
-    return $path;
-  }
-
-  protected function resolvePath(?string $path) {
-    if (!is_null($path) && substr($path, 0, 1) !== '/') {
-      $path = rtrim($this->config['resolve_path'], '/') . "/$path";
-    }
-    if (!file_exists($path)) {
-      touch($path);
-      $path = realpath($path);
-      unlink($path);
-    }
-    else {
-      $path = realpath($path);
-    }
-
-    return strval($path);
+  protected function getScssPartialPath(): string {
+    return $this->getOutputPath() . '/_style.scss';
   }
 
   public function getAvailableFonts(): array {
@@ -98,7 +77,6 @@ class DomPdfFontLoader {
     foreach (($this->config['sources'] ?? []) as $glob_string) {
       $paths = glob($glob_string);
       foreach ($paths as $path) {
-        $path = $this->resolvePath($path);
         $record = [];
         $font = Font::load($path);
         $font->parse();
@@ -110,7 +88,7 @@ class DomPdfFontLoader {
         $record['path'] = $path;
         $record['style'] = 'normal';
         $subfamily = $font->getFontSubfamily();
-        if (strcasecmp('italic', $subfamily) === 0) {
+        if (strpos(strtolower($subfamily), 'italic') !== FALSE) {
           $record['style'] = 'italic';
         }
         $font->close();
@@ -154,11 +132,8 @@ class DomPdfFontLoader {
       if (empty($typeface['path'])) {
         return NULL;
       }
-      $path = $typeface['path'];
 
-      //      $path = basename($path);
-
-      return $path;
+      return $typeface['path'];
     }, $typefaces);
     list($normal, $bold, $italic, $bold_italic) = $paths;
     if ($normal) {
@@ -179,29 +154,15 @@ class DomPdfFontLoader {
     return TRUE;
   }
 
-  protected function ensureDirectoryExists(string $path) {
+  protected function ensureDirectoryExists(string &$path) {
     if (file_exists($path)) {
       return;
     }
     mkdir($path, 0755, TRUE);
+    $path = realpath($path);
     $this->output->writeln("Output directory created:");
-    $this->output->writeln('  ' . $this->unresolve($path));
-  }
-
-  protected function unresolve(string $path) {
-    $realpath = realpath($path);
-    if ($realpath) {
-      $path = $realpath;
-    }
-    $cwd = getcwd();
-    if (strpos($path, $cwd) === 0) {
-      $path = '.' . substr($path, strlen($cwd));
-    }
-    if (substr($path, 0, 2) === './') {
-      $path = substr($path, 2);
-    }
-
-    return $path;
+    $this->output->writeln('  ' . Path::makeRelative($path, getcwd()));
+    $this->output->writeln();
   }
 
   /**
@@ -287,11 +248,11 @@ class DomPdfFontLoader {
           ->get('fontDir') . '/' . basename($src);
 
       if (!is_writeable(dirname($dest))) {
-        throw new \Exception(sprintf('Unable to write to destination "%s".', $this->unresolve($dest)));
+        throw new \Exception(sprintf('Unable to write to destination "%s".', Path::makeRelative($dest, getcwd())));
       }
 
-      $this->output->writeln("Copying %s", $this->unresolve($src));
-      $this->output->writeln("  to %s", $this->getOutputPath(FALSE) . '/' . basename($dest));
+      //      $this->output->writeln("Copying %s", $this->unresolve($src));
+      //      $this->output->writeln("  to %s", $this->getOutputPath() . '/' . basename($dest));
 
       if (!copy($src, $dest)) {
         throw new \Exception("Unable to copy '$src' to '$dest'");
@@ -300,10 +261,10 @@ class DomPdfFontLoader {
       $entry_name = mb_substr($dest, 0, -4);
       $entry_path = "$entry_name.ufm";
 
-      $relative_ufm = $this->getOutputPath(FALSE);
-      $relative_ufm .= '/' . basename($entry_path);
-      $this->output->writeln("Generating Adobe Font Metrics for %s", $relative_ufm);
-      $this->output->writeln();
+      //      $relative_ufm = $this->getOutputPath(FALSE);
+      //      $relative_ufm .= '/' . basename($entry_path);
+      //      $this->output->writeln("Generating Adobe Font Metrics for %s", $relative_ufm);
+      //      $this->output->writeln();
 
       $font_obj = Font::load($dest);
       $font_obj->saveAdobeFontMetrics($entry_path);
@@ -318,7 +279,6 @@ class DomPdfFontLoader {
     // will work in Lando or on production as the path is relative to the fonts
     // directory.
     $entry = array_map(function ($path) {
-      //      return str_replace('', '', $path);
       return basename($path);
     }, $entry);
 
@@ -328,4 +288,3 @@ class DomPdfFontLoader {
     $fontMetrics->saveFontFamilies();
   }
 }
-
