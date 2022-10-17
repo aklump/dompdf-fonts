@@ -25,6 +25,8 @@
         ]
     },
     "homepage": "https:\/\/github.com\/aklump\/dompdf-fonts",
-    "version": "0.0.4",
-    "bin": ["import.php"]
+    "version": "0.0.5",
+    "bin": [
+        "import.php"
+    ]
 }
