@@ -3,7 +3,7 @@
     "description": "Simplify the usage of TrueType fonts with DomPDF.",
     "type": "library",
     "require": {
-        "dompdf\/dompdf": "^2.0",
+        "dompdf\/dompdf": "^1.0|^2.0",
         "symfony\/yaml": "^4.4|^5.4",
         "symfony\/filesystem": "^4.4|^5.4"
     },
@@ -20,7 +20,7 @@
         }
     ],
     "homepage": "https:\/\/github.com\/aklump\/dompdf-fonts",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "bin": [
         "import.php"
     ]
