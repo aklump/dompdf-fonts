@@ -43,7 +43,7 @@ try {
   $service = new Importer($config, $output);
   $available = $service->getAvailableFonts();
   if (empty($available)) {
-    $output->writeln('Nothing to do. No fonts found.');
+    $output->writeln('Nothing to do. No fonts found in "%s".', Path::makeRelative($service->getOutputPath(), getcwd()));
     exit(0);
   }
 
