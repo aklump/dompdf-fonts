@@ -23,6 +23,9 @@ else {
 }
 
 try {
+  if (!isset($argv[1])) {
+    throw new \InvalidArgumentException('You must provide the path to "dompdf-fonts.config.yml" as the first argument to this script.');
+  }
   $config_path = Path::makeAbsolute($argv[1], getcwd());
   $config = Yaml::parseFile($config_path);
 
