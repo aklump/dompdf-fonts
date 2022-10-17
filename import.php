@@ -12,7 +12,6 @@
 
 namespace AKlump\Dompdf;
 
-use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Yaml\Yaml;
 
 require_once $GLOBALS['_composer_autoload_path'];
