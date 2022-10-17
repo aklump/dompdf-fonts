@@ -2,7 +2,7 @@
     "name": "aklump\/dompdf-fonts",
     "description": "Simplify the usage of TrueType fonts with DomPDF.",
     "type": "library",
-    "require-dev": {
+    "require": {
         "dompdf\/dompdf": "^2.0",
         "symfony\/yaml": "^5.4",
         "symfony\/filesystem": "^5.4"
