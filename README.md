@@ -8,6 +8,20 @@ I wrote this project to simplify using [custom fonts](https://github.com/dompdf/
 2. Create a directory in your project to hold the source fonts and the configuration file.
 3. Copy the config file found in _vendor/aklump/dompdf-fonts/dompdf-fonts.config.dist.yml_ to the font folder as _dompdf-fonts.config.yml_.
 
+### In a Drupal Module
+
+#### Installation
+
+1. `cd my_module`
+2. Install as a dev requirement: `composer require --dev aklump/dompdf-fonts`
+3. `mkdir fonts`
+4. `cp vendor/aklump/dompdf-fonts/dompdf-fonts.config.dist.yml fonts/dompdf-fonts.config.yml`
+
+#### Importing
+
+1. Copy source font into `fonts/`.
+2. `./vendor/bin/import.php fonts/dompdf-fonts.config.yml`
+
 _For example:_
 
 ```shell
