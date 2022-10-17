@@ -5,14 +5,21 @@ I wrote this project to simplify using [custom fonts](https://github.com/dompdf/
 ## Installation
 
 1. `composer require aklump/dompdf-fonts`
-1. Create a directory in your project to hold the source fonts and the configuration file.
-1. Copy the config file found in _vendor/aklump/dompdf-fonts/dompdf-fonts.config.dist.yml_ to the font folder as _dompdf-fonts.config.yml_.
+2. Create a directory in your project to hold the source fonts and the configuration file.
+3. Copy the config file found in _vendor/aklump/dompdf-fonts/dompdf-fonts.config.dist.yml_ to the font folder as _dompdf-fonts.config.yml_.
 
+_For example:_
+
+```shell
+composer require aklump/dompdf-fonts
+mkdir fonts
+cp vendor/aklump/dompdf-fonts/dompdf-fonts.config.dist.yml fonts/dompdf-fonts.config.yml
+```
 
 ## Get the .ttf font files
 
 1. Download one or more font families, say from <https://fonts.google.com>
-2. For use with DomPDF you only need the _.ttf_ versions.  Copy those to your source directory. In the examples shown below, that directory is _./fonts_.
+2. For use with DomPDF you only need the _.ttf_ versions. Copy those to your source directory. In the examples shown below, that directory is _./fonts_.
 3. You will need up to four versions of the font: normal, bold, italic and bold italic.
 
 _Example file tree._
