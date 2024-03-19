@@ -70,7 +70,7 @@ _Example file tree._
 _File: \_dompdf-fonts.config.yml_
 
 ```yaml
-source:
+sources:
   - ../Merriweather*.ttf
 output: ../../dist/dompdf_fonts/
 ```
@@ -114,3 +114,8 @@ h1 {
   @include pdf_font_serif;
 }
 ```
+
+## Resource Links
+
+* https://opentype.js.org/font-inspector.html
+* https://fontforge.org/en-US/
