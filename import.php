@@ -14,7 +14,24 @@ namespace AKlump\Dompdf;
 
 use Symfony\Component\Yaml\Yaml;
 
-require_once $GLOBALS['_composer_autoload_path'];
+// https://getcomposer.org/doc/articles/vendor-binaries.md#finding-the-composer-autoloader-from-a-binary
+if (isset($GLOBALS['_composer_autoload_path'])) {
+  // As of Composer 2.2...
+  $_composer_autoload_path = $GLOBALS['_composer_autoload_path'];
+}
+else {
+  // < Composer 2.2
+  foreach ([
+             __DIR__ . '/../../autoload.php',
+             __DIR__ . '/../vendor/autoload.php',
+             __DIR__ . '/vendor/autoload.php',
+           ] as $_composer_autoload_path) {
+    if (file_exists($_composer_autoload_path)) {
+      break;
+    }
+  }
+}
+require_once $_composer_autoload_path;
 
 try {
   if (!isset($argv[1])) {
