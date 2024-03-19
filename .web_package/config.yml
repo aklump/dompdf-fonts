@@ -1,0 +1,11 @@
+remote: origin
+git_root: .
+master: main
+patch_prefix: .
+preserve_patch_zero: true
+do_version_commit: false
+create_tags: patch
+push_master: auto
+push_tags: auto
+version_file: .web_package/config.yml
+version: 0.0.16
