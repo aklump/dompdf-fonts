@@ -1,26 +1,26 @@
 {
-    "name": "aklump\/dompdf-fonts",
-    "description": "Simplify the usage of TrueType fonts with DomPDF.",
-    "type": "library",
-    "require": {
-        "dompdf\/dompdf": "^1.0|^2.0",
-        "symfony\/yaml": "^4.4|^5.4",
-        "symfony\/filesystem": "^4.4|^5.4"
-    },
-    "license": "BSD-3-Clause",
-    "autoload": {
-        "psr-4": {
-            "AKlump\\Dompdf\\": "src\/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Aaron Klump",
-            "email": "sourcecode@intheloftstudios.com"
-        }
-    ],
-    "homepage": "https:\/\/github.com\/aklump\/dompdf-fonts",
-    "bin": [
-        "import.php"
-    ]
+  "name": "aklump/dompdf-fonts",
+  "description": "Simplify the usage of TrueType fonts with DomPDF.",
+  "type": "library",
+  "require": {
+    "dompdf/dompdf": "^1.0 || ^2.0 || ^3.0",
+    "symfony/yaml": "^4.4 || ^5.4 || ^6.4 || ^7.4",
+    "symfony/filesystem": "^4.4 || ^5.4 || ^6.4 || ^7.4"
+  },
+  "license": "BSD-3-Clause",
+  "autoload": {
+    "psr-4": {
+      "AKlump\\Dompdf\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Aaron Klump",
+      "email": "sourcecode@intheloftstudios.com"
+    }
+  ],
+  "homepage": "https://github.com/aklump/dompdf-fonts",
+  "bin": [
+    "import.php"
+  ]
 }
